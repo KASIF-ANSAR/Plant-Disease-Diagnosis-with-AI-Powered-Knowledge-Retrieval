@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv*/
+.env*/
+*.log
+leaf-rag-f21a2c4777ea.json
