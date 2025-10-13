@@ -1,29 +1,15 @@
-# # Python virtual environments
-# flask/.venv/
-# node_backend/.venv/
-
-# # Node.js dependencies
-# react_frontend/node_modules/
-# node_backend/node_modules/
-
-# # Python cache
-# __pycache__/
-
-# # OS files
-# .DS_Store
-# Thumbs.db
-
-
 # ==============================
 # Python
 # ==============================
 # Virtual environments
 flask/.venv/
 node_backend/.venv/
+.venv*/
 
 # Python cache files
 __pycache__/
 *.py[cod]
+*.pyc
 *.pyo
 
 # Logs
@@ -61,3 +47,9 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+.env*/
+
+# ==============================
+# Project-specific files
+# ==============================
+leaf-rag-f21a2c4777ea.json
