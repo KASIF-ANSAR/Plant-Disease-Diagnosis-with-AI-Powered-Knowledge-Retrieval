@@ -1,13 +1,26 @@
 import os
+import numpy as np
 from google import genai
 from langchain.schema import HumanMessage, AIMessage
 import nest_asyncio
+import re
+import faiss
+from sentence_transformers import SentenceTransformer
 
 nest_asyncio.apply()
 
 _chat_history = []
 _rag_answer_cache = {}
-_client = None  # define here
+_client = None  # Gemini client
+_faiss_index = None
+_documents = None
+_embedding_model = None
+
+# --- Configuration ---
+FAISS_INDEX_FILE = "faiss_index.idx"
+DOCS_MAPPING_FILE = "doc_texts.npy"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+TOP_K = 3  # Number of most relevant documents to retrieve
 
 # ------------------
 # Initialize Gemini client
@@ -15,19 +28,40 @@ _client = None  # define here
 def get_client():
     global _client
     if _client is None:
-        api_key = os.environ.get("GOOGLE_API_KEY", "AIzaSyCbZPjW9FHt9_mJ6I3K_iRlhAQnH6opaNo")
+        api_key = os.environ.get("GOOGLE_API_KEY")
         if not api_key:
             raise ValueError("Gemini API key missing!")
         _client = genai.Client(api_key=api_key)
     return _client
 
+# ------------------
+# Load FAISS index and documents
+# ------------------
+def load_faiss():
+    global _faiss_index, _documents, _embedding_model
+    if _faiss_index is None:
+        _faiss_index = faiss.read_index(FAISS_INDEX_FILE)
+        _documents = np.load(DOCS_MAPPING_FILE, allow_pickle=True)
+        _embedding_model = SentenceTransformer(EMBEDDING_MODEL)
 
 # ------------------
-# Enhanced Gemini response with structured output
+# Retrieve top-k relevant documents
 # ------------------
-import re
+def retrieve_relevant_docs(query: str, k=TOP_K):
+    load_faiss()
+    query_embedding = _embedding_model.encode([query], convert_to_numpy=True)
+    distances, indices = _faiss_index.search(query_embedding, k)
+    docs = [str(_documents[idx]) for idx in indices[0] if idx != -1]
+    return "\n\n".join(docs)  # concatenate top-k docs as context
 
+# ------------------
+# Enhanced Gemini response with FAISS context
+# ------------------
 def get_rag_response(disease_name: str, question: str, context_text: str = ""):
+    # Retrieve FAISS-based context if not explicitly provided
+    if not context_text:
+        context_text = retrieve_relevant_docs(question)
+
     context_question = f"Disease: {disease_name}\nQuestion: {question}"
     if context_question in _rag_answer_cache:
         return _rag_answer_cache[context_question]
@@ -93,5 +127,3 @@ def get_rag_response(disease_name: str, question: str, context_text: str = ""):
 
     except Exception as e:
         raise RuntimeError(f"Gemini RAG generation failed → {e}")
-
-
