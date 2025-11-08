@@ -23,7 +23,7 @@ Plant Disease Diagnosis with AI-Powered Knowledge Retrieval is a web-based syste
 - TensorFlow / tf_keras (CNN model)  
 - LangChain + Gemini AI (RAG pipeline)  
 - Chroma vectorstore for document embeddings  
-- Streamlit for front-end interface  
+- React for Froentend, Flask for Backend 
 <!-- OpenCV, PIL, NumPy for image processing  -->
 - SQL (planned) for storing user history  
 
