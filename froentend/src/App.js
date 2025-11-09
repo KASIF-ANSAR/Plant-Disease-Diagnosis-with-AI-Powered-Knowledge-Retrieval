@@ -60,7 +60,8 @@ function App() {
     formData.append("user_id", user.id);
 
     try {
-      const res = await axios.post("http://localhost:3000/predict", formData, {
+      // const res = await axios.post("http://localhost:3000/predict", formData, {
+      const res = await axios.post("http://localhost:5000/predict", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       setPrediction(res.data);
@@ -78,7 +79,8 @@ function App() {
   if (!userQuestion) return alert("Please type a question!");
   if (!prediction) return alert("Predict first!");
   try {
-    const res = await axios.post("http://localhost:3000/rag", {
+    // const res = await axios.post("http://localhost:3000/rag", {
+    const res = await axios.post("http://localhost:5000/rag", {
       disease: prediction.label,
       question: userQuestion,
       user_id: user.id,
