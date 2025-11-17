@@ -1,0 +1,36 @@
+# ---------------------
+# Core Embeddings + FAISS
+# ---------------------
+sentence-transformers==2.5.1
+faiss-cpu==1.8.0
+scikit-learn==1.5.2
+numpy==1.26.4
+tqdm==4.66.5
+
+# ---------------------
+# LLM (Gemini)
+# ---------------------
+google-genai==0.6.0
+
+# ---------------------
+# Backend (Flask API)
+# ---------------------
+flask==3.0.3
+flask-cors==4.0.1
+
+# ---------------------
+# PDF Handling (RAG)
+# ---------------------
+pypdf==4.2.0
+nltk==3.8.1
+
+# ---------------------
+# ML model dependencies
+# (TensorFlow is already installed in ml_service venv)
+# ---------------------
+Pillow==10.4.0
+
+# ---------------------
+# Optional (only if you load PyTorch models)
+# ---------------------
+#torch==2.4.0

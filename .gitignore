@@ -2,9 +2,10 @@
 # Python
 # ==============================
 # Virtual environments
-flask/.venv/
-node_backend/.venv/
-.venv*/
+venv/
+*/venv/
+.venv/
+*/.venv/
 
 # Python cache files
 __pycache__/
@@ -16,17 +17,37 @@ __pycache__/
 *.log
 
 # ==============================
+# Python Projects - Model & Generated Files
+# ==============================
+# Vector store / embeddings / index files
+*.idx
+*.npy
+vector_store/
+rag_service/vector_store/
+
+# PDF storage
+pdfs/
+rag_service/pdfs/
+
+# Model files
+*.h5
+*.keras
+*.pb
+
+# ==============================
 # Node.js / JavaScript
 # ==============================
 # Node modules
 react_frontend/node_modules/
 node_backend/node_modules/
+froentend/node_modules/
 
 # Build output
 react_frontend/build/
 node_backend/dist/
+froentend/build/
 
-# npm logs
+# npm / yarn logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -54,7 +75,7 @@ Thumbs.db
 # ==============================
 leaf-rag-f21a2c4777ea.json
 
-
-
+# Trash / temp folders
 trash/
-
+temp/
+tmp/
